@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>可以不讨厌我吗肉肉？</title>
+    <style>
+        body {
+            background-color: #ffdddd;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: transform 0.3s ease;
+        }
+
+        #mainImage {
+            width: 200px;
+            transition: all 0.3s ease;
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #68495b;
+            transition: transform 0.3s ease;
+        }
+
+        button {
+            font-size: 18px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+
+        #yes {
+            background-color: #d4818e;
+            color: white;
+        }
+
+        #no {
+            background-color: #6784b1;
+            color: white;
+            position: relative;
+        }
+
+        .yes-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #ffdae0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+        
+        .hug-image {
+            width: 250px;
+            margin-top: 20px;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .yes-text {
+            font-size: 48px;
+            color: #d44d6c;
+            margin-bottom: 20px;
+            animation: bounce 1s ease infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img id="mainImage" src="111.jpeg" alt="爱心">
+        <h1 id="question">可以补药讨厌我吗肉肉宝宝？</h1>
+        <div class="buttons">
+            <button id="yes">可以</button>
+            <button id="no">不要</button>
+        </div>
+    </div>
+
+    <script>
+        let yesButton = document.getElementById("yes");
+        let noButton = document.getElementById("no");
+        let questionText = document.getElementById("question");
+        let mainImage = document.getElementById("mainImage");
+
+        let clickCount = 0;
+        const noTexts = [
+            "你认真的吗肉肉🥺",
+            "再想想吧肉肉宝宝🥺",
+            "不许选这个！",
+            "我要哭鼻子了",
+            "不行:("
+        ];
+
+        noButton.addEventListener("click", function() {
+            clickCount++;
+            
+            // 放大Yes按钮
+            let yesSize = 1 + (clickCount * 1.2);
+            yesButton.style.transform = `scale(${yesSize})`;
+            
+            // 移动No按钮
+            let noOffset = clickCount * 50;
+            noButton.style.transform = `translateX(${noOffset}px)`;
+            
+            // 上移图片和文字
+            let moveUp = clickCount * 25;
+            mainImage.style.transform = `translateY(-${moveUp}px)`;
+            questionText.style.transform = `translateY(-${moveUp}px)`;
+            
+            // 更新No按钮文本
+            if (clickCount <= noTexts.length) {
+                noButton.innerText = noTexts[clickCount - 1];
+            } else {
+                // 超过5次后文本保持不变
+                noButton.innerText = noTexts[noTexts.length - 1];
+            }
+            
+            // 更新图片
+            const imageSources = [
+                "4.jpeg", // 震惊
+                "3.jpeg", // 思考
+                "7.jpeg", // 生气
+                "2.jpeg", // 哭
+                "6.jpeg"  // 之后一直是哭
+            ];
+            
+            if (clickCount <= imageSources.length) {
+                mainImage.src = imageSources[clickCount - 1];
+            } else {
+                // 超过5次后图片保持不变
+                mainImage.src = imageSources[imageSources.length - 1];
+            }
+        });
+
+        yesButton.addEventListener("click", function() {
+            document.body.innerHTML = `
+                <div class="yes-screen">
+                    <h1 class="yes-text">!!!喜欢你！(>_<)♥</h1>
+                    <img src="11.jpeg" alt="拥抱" class="hug-image">
+                </div>
+            `;
+        });
+    </script>
+</body>
+</html>
